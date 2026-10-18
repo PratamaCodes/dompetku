@@ -1,17 +1,23 @@
 {
+  "version": 2,
+  "framework": null,
   "functions": {
-    "api/*.php": {
-      "runtime": "vercel-php@0.7.0"
+    "api/index.php": {
+      "runtime": "vercel-php@0.7.4"
     }
   },
   "routes": [
     {
-      "src": "/(css|img|js|lib)/(.*)",
+      "src": "/(css|js|images|fonts|assets|vendor|build|storage)/(.*)",
       "dest": "/public/$1/$2"
     },
     {
-      "src": "/(favicon.ico|robots.txt|sw.js|firebase-messaging-sw.js)",
+      "src": "/(favicon.ico|robots.txt)",
       "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
     }
   ]
 }
