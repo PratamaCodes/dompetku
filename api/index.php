@@ -1,12 +1,31 @@
-
 <?php
 
-use Illuminate\Http\Request;
+// Forward Vercel requests to normal Laravel public/index.php
+// Redirect storage and cache to writable /tmp on serverless environments
+$tmpStorage = '/tmp/storage';
 
-define('LARAVEL_START', microtime(true));
+$dirs = [
+    $tmpStorage . '/app/public',
+    $tmpStorage . '/framework/cache/data',
+    $tmpStorage . '/framework/sessions',
+    $tmpStorage . '/framework/testing',
+    $tmpStorage . '/framework/views',
+    $tmpStorage . '/logs',
+];
 
-require __DIR__ . '/../vendor/autoload.php';
+foreach ($dirs as $dir) {
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+}
 
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+// Redirect cache and compiled views paths to writable /tmp
+putenv('APP_CONFIG_CACHE=/tmp/config.php');
+putenv('APP_EVENTS_CACHE=/tmp/events.php');
+putenv('APP_PACKAGES_CACHE=/tmp/packages.php');
+putenv('APP_ROUTES_CACHE=/tmp/routes.php');
+putenv('APP_SERVICES_CACHE=/tmp/services.php');
+putenv('VIEW_COMPILED_PATH=/tmp/storage/framework/views');
 
-$app->handleRequest(Request::capture());
+// Forward request to Laravel's standard entry point
+require __DIR__ . '/../public/index.php';
