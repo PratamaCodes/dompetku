@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "api/*.php": {
+      "runtime": "vercel-php@0.7.0"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(css|img|js|lib)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/(favicon.ico|robots.txt|sw.js|firebase-messaging-sw.js)",
+      "dest": "/public/$1"
+    }
+  ]
+}
