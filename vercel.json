@@ -22,6 +22,10 @@
     {
       "src": "^/(.*)$",
       "dest": "/api/index.php"
+    },
+    {
+      "src": "^/livewire-[^/]+/update$",
+      "dest": "/api/index.php"
     }
   ]
 }
